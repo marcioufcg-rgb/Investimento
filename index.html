@@ -6,10 +6,6 @@
 <title>WealthOS — Carteira</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<!-- Firebase SDK (compat v9) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>
 :root{
   --bg:#04080f;--bg1:#080e1a;--bg2:#0c1525;--bg3:#111d30;
@@ -300,107 +296,7 @@ input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}
 .fade-in{animation:fadeIn .22s ease}
 @keyframes slideDown{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 .slide-down{animation:slideDown .18s ease}
-/* ── AUTH SCREEN ─────────────────────────────────── */
-#auth-screen{
-  position:fixed;inset:0;z-index:9000;
-  background:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-  padding:24px;
-}
-.auth-box{
-  width:100%;max-width:400px;
-  background:var(--bg1);border:1px solid var(--border2);border-radius:20px;
-  padding:36px 32px;position:relative;overflow:hidden;
-}
-.auth-box::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;border-radius:50%;
-  background:linear-gradient(135deg,var(--cyan),var(--purple));
-  opacity:.06;
-}
-.auth-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.auth-logo-icon{
-  width:44px;height:44px;border-radius:12px;
-  background:linear-gradient(135deg,var(--cyan),var(--purple));
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;font-weight:800;color:#000;
-}
-.auth-title{font-size:22px;font-weight:800;letter-spacing:-.5px}
-.auth-sub{font-size:11px;color:var(--text3);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
-.auth-tabs{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border)}
-.auth-tab{
-  flex:1;background:none;border:none;border-bottom:2px solid transparent;
-  color:var(--text3);cursor:pointer;padding:9px 0;font-size:13px;font-weight:700;
-  font-family:var(--font);transition:all .18s;margin-bottom:-1px;
-}
-.auth-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
-.auth-panel{display:none}.auth-panel.active{display:block}
-.auth-field{margin-bottom:14px}
-.auth-field label{
-  display:block;font-size:10px;color:var(--text3);font-weight:700;
-  text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;
-}
-.auth-field input{
-  width:100%;background:var(--bg2);border:1px solid var(--border2);
-  border-radius:9px;color:var(--text);padding:11px 14px;font-size:14px;
-  font-family:var(--font);outline:none;transition:border-color .18s;
-}
-.auth-field input:focus{border-color:var(--cyan)}
-.auth-field input::placeholder{color:var(--text3)}
-.auth-btn{
-  width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:700;
-  font-family:var(--font);cursor:pointer;border:none;margin-top:6px;
-  transition:opacity .18s;
-}
-.auth-btn:hover{opacity:.88}
-.auth-btn:disabled{opacity:.5;cursor:not-allowed}
-.auth-msg{
-  font-size:12px;text-align:center;margin-top:12px;
-  min-height:18px;font-weight:600;
-}
-.auth-msg.err{color:var(--red)}
-.auth-msg.ok{color:var(--green)}
-.auth-sep{
-  display:flex;align-items:center;gap:10px;
-  margin:18px 0;font-size:11px;color:var(--text3);
-}
-.auth-sep::before,.auth-sep::after{content:'';flex:1;height:1px;background:var(--border)}
-.auth-user-badge{
-  display:flex;align-items:center;gap:8px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:8px;
-  padding:6px 12px;font-size:12px;cursor:pointer;
-  font-family:var(--font);color:var(--text2);transition:all .18s;
-}
-.auth-user-badge:hover{border-color:var(--cyan);color:var(--cyan)}
-/* strength bar */
-.strength-bar{height:3px;border-radius:3px;margin-top:6px;transition:all .3s;background:var(--border)}
-.strength-bar.w{background:var(--red);width:25%}
-.strength-bar.m{background:var(--yellow);width:60%}
-.strength-bar.s{background:var(--green);width:100%}
-
-/* ── FIREBASE SETUP SCREEN ───────────────────────── */
-#fb-setup{
-  position:fixed;inset:0;z-index:9100;background:rgba(4,8,15,.96);
-  display:none;align-items:center;justify-content:center;padding:24px;
-  backdrop-filter:blur(8px);
-}
-#fb-setup.open{display:flex}
-.fb-setup-box{
-  background:var(--bg1);border:1px solid var(--border2);border-radius:18px;
-  padding:28px;width:100%;max-width:460px;
-}
-/* Sync badge */
-.sync-badge{
-  display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
-  padding:4px 10px;border-radius:20px;cursor:pointer;transition:all .18s;
-}
-.sync-badge.synced{ background:rgba(0,229,160,.1);color:var(--green);border:1px solid rgba(0,229,160,.25); }
-.sync-badge.syncing{ background:rgba(255,196,68,.1);color:var(--yellow);border:1px solid rgba(255,196,68,.25); }
-.sync-badge.offline{ background:rgba(100,116,139,.1);color:var(--text3);border:1px solid var(--border); }
-.sync-badge.error{ background:rgba(255,68,102,.1);color:var(--red);border:1px solid rgba(255,68,102,.25); }
-@keyframes rotate{to{transform:rotate(360deg)}}
-.sync-spin{display:inline-block;animation:rotate .8s linear infinite}
-
+/* ── MOBILE RESPONSIVE ──────────────────────────── */
   .hcol{display:none}
   .amain{grid-template-columns:1.8fr 1fr 1fr 18px!important}
   .expgrid{grid-template-columns:1fr!important}
@@ -420,141 +316,13 @@ input[type=range]{width:100%;accent-color:var(--cyan);cursor:pointer}
 </head>
 <body>
 
-<!-- ═══ FIREBASE SETUP (aparece na 1ª vez ou se não configurado) ═══ -->
-<div id="fb-setup">
-  <div class="fb-setup-box">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-      <div style="font-size:24px">☁️</div>
-      <div>
-        <div style="font-size:17px;font-weight:800">Sincronização em Nuvem</div>
-        <div style="font-size:11px;color:var(--text3);margin-top:1px">Firebase — gratuito, seguro, multi-dispositivo</div>
-      </div>
-    </div>
-
-    <div style="background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text2);margin:16px 0;line-height:1.7">
-      <strong style="color:var(--cyan)">Como configurar (2 minutos, gratuito):</strong><br/>
-      1. Acesse <a href="https://console.firebase.google.com" target="_blank" style="color:var(--cyan)">console.firebase.google.com</a><br/>
-      2. Crie um projeto → <strong>Adicionar app Web</strong><br/>
-      3. Ative <strong>Authentication → E-mail/Senha</strong><br/>
-      4. Ative <strong>Firestore Database</strong> (modo produção)<br/>
-      5. Copie as credenciais e cole abaixo
-    </div>
-
-    <div class="mfield"><label>API Key</label><input type="text" id="fb-apikey" placeholder="AIzaSy..."/></div>
-    <div class="mfield"><label>Auth Domain</label><input type="text" id="fb-authdomain" placeholder="meu-projeto.firebaseapp.com"/></div>
-    <div class="mfield"><label>Project ID</label><input type="text" id="fb-projectid" placeholder="meu-projeto-12345"/></div>
-
-    <div style="display:flex;gap:8px;margin-top:4px">
-      <button onclick="saveFbConfig()" class="sbtn" style="background:linear-gradient(135deg,var(--cyan),#0099cc);color:#000;flex:2">
-        ✓ Conectar Firebase
-      </button>
-      <button onclick="skipFbSetup()" class="sbtn" style="background:none;border:1px solid var(--border);color:var(--text3);flex:1;font-size:12px">
-        Usar offline
-      </button>
-    </div>
-    <div class="auth-msg" id="fb-msg" style="margin-top:10px"></div>
-  </div>
-</div>
-
-<!-- ═══ AUTH SCREEN ═══ -->
-<div id="auth-screen">
-  <div class="auth-box">
-    <div class="auth-logo">
-      <div class="auth-logo-icon">W</div>
-      <div>
-        <div class="auth-title">WealthOS</div>
-        <div class="auth-sub">Gestão Patrimonial</div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('login')">Entrar</button>
-      <button class="auth-tab" onclick="switchAuthTab('register')">Criar Conta</button>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="auth-login" class="auth-panel active">
-      <div class="auth-field">
-        <label>E-mail</label>
-        <input type="email" id="l-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')doLogin()"/>
-      </div>
-      <div class="auth-field">
-        <label>Senha</label>
-        <input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
-      </div>
-      <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:14px">
-        <button onclick="switchAuthTab('forgot')" style="background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;font-family:var(--font);font-weight:600;transition:color .18s" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text3)'">Esqueci a senha</button>
-      </div>
-      <button class="auth-btn" onclick="doLogin()" id="btn-login" style="background:linear-gradient(135deg,var(--cyan),#0099cc);color:#000">
-        Entrar
-      </button>
-      <div class="auth-msg" id="login-msg"></div>
-      <div class="auth-sep">ou continue com</div>
-      <button onclick="doGuest()" style="width:100%;padding:11px;border-radius:10px;background:none;border:1px solid var(--border);color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .18s" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'">
-        👤 Acesso como Visitante
-      </button>
-    </div>
-
-    <!-- REGISTER -->
-    <div id="auth-register" class="auth-panel">
-      <div class="auth-field">
-        <label>Nome</label>
-        <input type="text" id="r-name" placeholder="Seu nome"/>
-      </div>
-      <div class="auth-field">
-        <label>E-mail</label>
-        <input type="email" id="r-email" placeholder="seu@email.com"/>
-      </div>
-      <div class="auth-field">
-        <label>Senha</label>
-        <input type="password" id="r-pass" placeholder="Mínimo 6 caracteres" oninput="checkStrength(this.value)"/>
-        <div class="strength-bar" id="strength-bar"></div>
-        <div style="font-size:10px;color:var(--text3);margin-top:4px" id="strength-txt"></div>
-      </div>
-      <div class="auth-field">
-        <label>Confirmar Senha</label>
-        <input type="password" id="r-pass2" placeholder="Repita a senha" onkeydown="if(event.key==='Enter')doRegister()"/>
-      </div>
-      <button class="auth-btn" onclick="doRegister()" id="btn-register" style="background:linear-gradient(135deg,var(--purple),#5b4ff0);color:#fff">
-        Criar Conta
-      </button>
-      <div class="auth-msg" id="register-msg"></div>
-    </div>
-
-    <!-- FORGOT -->
-    <div id="auth-forgot" class="auth-panel">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.6">
-        Digite o e-mail cadastrado e sua senha será exibida. Como os dados ficam locais, não há envio de e-mail.
-      </div>
-      <div class="auth-field">
-        <label>E-mail</label>
-        <input type="email" id="f-email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')doForgot()"/>
-      </div>
-      <button class="auth-btn" onclick="doForgot()" style="background:var(--bg2);border:1px solid var(--border);color:var(--text2)">
-        Recuperar Acesso
-      </button>
-      <div class="auth-msg" id="forgot-msg"></div>
-      <div style="text-align:center;margin-top:14px">
-        <button onclick="switchAuthTab('login')" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:var(--font);font-weight:600">← Voltar ao login</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ HEADER (logo + live) ═══ -->
+<!-- ═══ HEADER ═══ -->
 <div id="header">
   <div class="logo">
     <div class="logo-icon">W</div>
     <div><div class="logo-name">WealthOS</div><div class="logo-sub">Gestão Patrimonial</div></div>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
-    <div id="user-badge" class="auth-user-badge" onclick="openSettings()" title="Usuário logado">
-      <span>👤</span><span id="user-badge-name" style="font-weight:700;font-size:12px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Usuário</span>
-    </div>
-    <div id="sync-badge" class="sync-badge offline" onclick="manualSync()" title="Status sincronização">
-      <span id="sync-icon">⊗</span><span id="sync-label">Offline</span>
-    </div>
     <div class="live-badge"><div class="live-dot"></div>Ao vivo</div>
     <button onclick="openSettings()" title="Configurações"
       style="background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;border-radius:8px;padding:5px 9px;font-size:13px;transition:all .18s;font-family:var(--font)"
@@ -798,14 +566,14 @@ function mkTx(type,date,qty,price,note=""){return {id:mkId(),type,date,qty,price
 const tod=()=>new Date().toISOString().slice(0,10);
 
 const DEFAULT_ASSETS = [
-  {id:1,ticker:"PETR4",   name:"Petrobras PN",      category:"Ações",      qty:200,  avgPrice:34.50,  manualPrice:38.90,  dividends:312,  broker:"XP",             monthlyAporte:500,  monthlyYieldPct:0,    transactions:[{id:10,type:"aporte",date:"2024-03-10",qty:200, price:34.50, note:"Compra inicial"}]},
-  {id:2,ticker:"MXRF11",  name:"Maxi Renda FII",    category:"FIIs",       qty:150,  avgPrice:9.80,   manualPrice:10.45,  dividends:198,  broker:"Clear",          monthlyAporte:300,  monthlyYieldPct:0.85, transactions:[{id:11,type:"aporte",date:"2024-04-01",qty:150, price:9.80,  note:"Compra inicial"}]},
-  {id:3,ticker:"BOVA11",  name:"iShares IBOVESPA",  category:"ETFs",       qty:30,   avgPrice:118.00, manualPrice:125.60, dividends:0,    broker:"XP",             monthlyAporte:400,  monthlyYieldPct:0,    transactions:[{id:12,type:"aporte",date:"2024-05-15",qty:30,  price:118,   note:"Compra inicial"}]},
-  {id:4,ticker:"IVVB11",  name:"iShares S&P 500",   category:"ETFs",       qty:20,   avgPrice:285.00, manualPrice:302.40, dividends:0,    broker:"Rico",           monthlyAporte:400,  monthlyYieldPct:0,    transactions:[{id:13,type:"aporte",date:"2024-06-01",qty:20,  price:285,   note:"Compra inicial"}]},
-  {id:5,ticker:"BTC",     name:"Bitcoin",            category:"Crypto",     qty:0.05, avgPrice:280000, manualPrice:340000, dividends:0,    broker:"Binance",        monthlyAporte:200,  monthlyYieldPct:0,    transactions:[{id:14,type:"aporte",date:"2024-01-20",qty:0.05,price:280000,note:"Compra inicial"}]},
-  {id:6,ticker:"TESOURO SELIC",name:"Tesouro Selic 2029",category:"Renda Fixa",qty:1,avgPrice:14800,  manualPrice:15620,  dividends:0,    broker:"Tesouro Direto", monthlyAporte:500,  monthlyYieldPct:0.87, transactions:[{id:15,type:"aporte",date:"2024-02-10",qty:1,   price:14800, note:"Compra inicial"}]},
-  {id:7,ticker:"CDB INTER",name:"CDB Inter 115% CDI",category:"Renda Fixa",qty:1,    avgPrice:10000,  manualPrice:10840,  dividends:0,    broker:"Inter",          monthlyAporte:200,  monthlyYieldPct:0.79, transactions:[{id:16,type:"aporte",date:"2024-03-01",qty:1,   price:10000, note:"Compra inicial"}]},
-  {id:8,ticker:"CASH",    name:"Caixa/Reserva",      category:"Caixa",      qty:1,    avgPrice:5000,   manualPrice:5000,   dividends:0,    broker:"Nubank",         monthlyAporte:0,    monthlyYieldPct:0,    transactions:[]},
+  {id:1,ticker:"PETR4",   name:"Petrobras PN",      category:"Ações",      qty:200,  avgPrice:34.50,  manualPrice:38.90,  dividends:312,  broker:"XP",             monthlyAporte:500,  monthlyYieldPct:0,    buyDate:"2024-03-10", transactions:[{id:10,type:"aporte",date:"2024-03-10",qty:200, price:34.50, note:"Compra inicial"}]},
+  {id:2,ticker:"MXRF11",  name:"Maxi Renda FII",    category:"FIIs",       qty:150,  avgPrice:9.80,   manualPrice:10.45,  dividends:198,  broker:"Clear",          monthlyAporte:300,  monthlyYieldPct:0.85, buyDate:"2024-04-01", transactions:[{id:11,type:"aporte",date:"2024-04-01",qty:150, price:9.80,  note:"Compra inicial"}]},
+  {id:3,ticker:"BOVA11",  name:"iShares IBOVESPA",  category:"ETFs",       qty:30,   avgPrice:118.00, manualPrice:125.60, dividends:0,    broker:"XP",             monthlyAporte:400,  monthlyYieldPct:0,    buyDate:"2024-05-15", transactions:[{id:12,type:"aporte",date:"2024-05-15",qty:30,  price:118,   note:"Compra inicial"}]},
+  {id:4,ticker:"IVVB11",  name:"iShares S&P 500",   category:"ETFs",       qty:20,   avgPrice:285.00, manualPrice:302.40, dividends:0,    broker:"Rico",           monthlyAporte:400,  monthlyYieldPct:0,    buyDate:"2024-06-01", transactions:[{id:13,type:"aporte",date:"2024-06-01",qty:20,  price:285,   note:"Compra inicial"}]},
+  {id:5,ticker:"BTC",     name:"Bitcoin",            category:"Crypto",     qty:0.05, avgPrice:280000, manualPrice:340000, dividends:0,    broker:"Binance",        monthlyAporte:200,  monthlyYieldPct:0,    buyDate:"2024-01-20", transactions:[{id:14,type:"aporte",date:"2024-01-20",qty:0.05,price:280000,note:"Compra inicial"}]},
+  {id:6,ticker:"TESOURO SELIC",name:"Tesouro Selic 2029",category:"Renda Fixa",qty:1,avgPrice:14800,  manualPrice:15620,  dividends:0,    broker:"Tesouro Direto", monthlyAporte:500,  monthlyYieldPct:0.87, buyDate:"2024-02-10", transactions:[{id:15,type:"aporte",date:"2024-02-10",qty:1,   price:14800, note:"Compra inicial"}]},
+  {id:7,ticker:"CDB INTER",name:"CDB Inter 115% CDI",category:"Renda Fixa",qty:1,    avgPrice:10000,  manualPrice:10840,  dividends:0,    broker:"Inter",          monthlyAporte:200,  monthlyYieldPct:0.79, buyDate:"2024-03-01", transactions:[{id:16,type:"aporte",date:"2024-03-01",qty:1,   price:10000, note:"Compra inicial"}]},
+  {id:8,ticker:"CASH",    name:"Caixa/Reserva",      category:"Caixa",      qty:1,    avgPrice:5000,   manualPrice:5000,   dividends:0,    broker:"Nubank",         monthlyAporte:0,    monthlyYieldPct:0,    buyDate:"2024-01-01", transactions:[]},
 ];
 
 function saveAssets(){
@@ -1074,7 +842,7 @@ function renderCarteira(){
     <div class="amain" onclick="toggleExp(${a.id})">
       <div style="display:flex;align-items:center;gap:10px">
         <div class="aicon" style="background:${meta.color}18;border:1px solid ${meta.color}33">${meta.icon}</div>
-        <div><div class="aticker">${a.ticker}</div><div class="aname">${a.name} · ${a.broker}</div></div>
+        <div><div class="aticker">${a.ticker}</div><div class="aname">${a.name} · ${a.broker}${a.buyDate?' · 📅 '+new Date(a.buyDate+'T12:00:00').toLocaleDateString('pt-BR'):''}</div></div>
         <span class="cpill" style="background:${meta.color}18;color:${meta.color};border:1px solid ${meta.color}33">${a.category}</span>
       </div>
       <div class="hcol"><div class="mono bold">${fmtN(a.qty,a.qty<1?6:0)}</div><div class="clabel2">${fmt(a.avgPrice)} médio</div></div>
@@ -1134,6 +902,15 @@ function renderCarteira(){
             <div class="sbox"><div class="sbox-lbl">Valor atual</div><div class="sbox-val">${fmt(cur2)}</div></div>
             <div class="sbox"><div class="sbox-lbl">Rentabilidade</div><div class="sbox-val" style="color:${ret>=0?"var(--green)":"var(--red)"}">${fmtPct(ret)}</div></div>
             <div class="sbox"><div class="sbox-lbl">Participação</div><div class="sbox-val" style="color:var(--yellow)">${pct.toFixed(2)}%</div></div>
+            <div class="sbox" style="grid-column:span 2">
+              <div class="sbox-lbl">📅 Data de compra</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+                <input type="date" value="${a.buyDate||tod()}" id="bd-${a.id}"
+                  style="background:var(--bg1);border:1px solid var(--border2);border-radius:7px;color:var(--text);padding:6px 10px;font-size:12px;font-family:var(--font);outline:none;flex:1"
+                  onchange="updateBuyDate(${a.id},this.value)"/>
+                <span style="font-size:11px;color:var(--text3)">${a.buyDate?Math.floor((Date.now()-new Date(a.buyDate+'T12:00:00'))/(86400000*30))+'m na carteira':''}</span>
+              </div>
+            </div>
           </div>
         </div>
         <!-- HISTORY -->
@@ -1219,8 +996,19 @@ function updateMonthly(id,field,val){
   if(currentPage==="dashboard") syncViews();
 }
 
-// ═══════════════════════════════════════════════════
-//  DIVIDENDOS
+function updateBuyDate(id, val){
+  id=parseInt(id,10);
+  const a=assets.find(x=>parseInt(x.id,10)===id); if(!a) return;
+  a.buyDate=val;
+  // update the first transaction date too if it matches previous buyDate
+  if(a.transactions?.length && a.transactions[0].type==="aporte"){
+    a.transactions[0].date=val;
+  }
+  debouncedSave();
+  // refresh subtitle in list
+  const nameEl=document.querySelector(`#ai-${id} .aname`);
+  if(nameEl) nameEl.textContent=`${a.name} · ${a.broker}${val?' · 📅 '+new Date(val+'T12:00:00').toLocaleDateString('pt-BR'):''}`;
+}
 // ═══════════════════════════════════════════════════
 function renderDividendos(){
   const divs=totDivs(),inv=totInv(),mr=totMonthRend(),ap=totMonthAp();
@@ -1420,9 +1208,7 @@ function openModal(type,assetId=null){
     </div>
     <div class="mgrid">
       <div class="mfield"><label>Aporte mensal (R$)</label><input type="number" id="nf-ap" placeholder="500" step="any"/></div>
-      <div class="mfield" style="display:flex;align-items:flex-end">
-        <div style="font-size:11px;color:var(--text3);padding-bottom:4px;line-height:1.5">💡 Preencha o ticker e clique <strong style="color:var(--cyan)">Buscar</strong> para autocompletar cotação e nome</div>
-      </div>
+      <div class="mfield"><label>📅 Data de compra</label><input type="date" id="nf-date" value="${tod()}"/></div>
     </div>
     <button class="sbtn" onclick="doAdd()" style="background:linear-gradient(135deg,var(--cyan),#0ea5e9);color:#000">✓ Adicionar Ativo</button>`;
   }
@@ -1480,6 +1266,7 @@ function doAdd(){
   const ticker=el("nf-ticker").value.trim().toUpperCase(),qty=parseFloat(el("nf-qty").value)||0;
   if(!ticker||!qty){showToast("Preencha pelo menos ticker e quantidade.");return;}
   const avg=parseFloat(el("nf-avg").value)||0,cat=el("nf-cat").value;
+  const buyDate=el("nf-date")?.value||tod();
   assets.push({
     id:mkId(),ticker,name:el("nf-name").value||ticker,category:cat,qty,avgPrice:avg,
     manualPrice:parseFloat(el("nf-cur").value)||avg,
@@ -1487,7 +1274,8 @@ function doAdd(){
     broker:el("nf-broker").value,
     monthlyAporte:parseFloat(el("nf-ap").value)||0,
     monthlyYieldPct:parseFloat(el("nf-yield").value)||0,
-    transactions:[mkTx("aporte",tod(),qty,avg,"Compra inicial")],
+    buyDate,
+    transactions:[mkTx("aporte",buyDate,qty,avg,"Compra inicial")],
   });
   closeModal(); save(); renderCarteira(); syncViews();
 }
@@ -1813,21 +1601,12 @@ function openSettings(){
 
     <!-- Status -->
     <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:16px;font-size:12px">
-      <div style="font-weight:700;color:var(--text2);margin-bottom:8px">👤 Conta ativa</div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-        <span style="color:var(--text3)">Usuário</span>
-        <span style="font-weight:700;color:var(--cyan)">${(()=>{ const s=getSession(); return s?s.name+(s.guest?" (visitante)":""):"—"; })()}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
-        <span style="color:var(--text3)">E-mail</span>
-        <span style="font-family:var(--mono);font-size:11px;color:var(--text2)">${(()=>{ const s=getSession(); return s?s.email:"—"; })()}</span>
-      </div>
-      <div style="font-weight:700;color:var(--text2);margin-bottom:8px">💾 Armazenamento</div>
+      <div style="font-weight:700;color:var(--text2);margin-bottom:8px">💾 Armazenamento local</div>
       <div style="display:flex;justify-content:space-between;margin-bottom:4px">
         <span style="color:var(--text3)">Ativos salvos</span>
         <span style="font-family:var(--mono);font-weight:700;color:var(--cyan)">${assets.length}</span>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between">
         <span style="color:var(--text3)">Tamanho dos dados</span>
         <span style="font-family:var(--mono);font-weight:700;color:var(--cyan)">${used}</span>
       </div>
@@ -1856,11 +1635,8 @@ function openSettings(){
 
     <!-- Reset -->
     <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">⚠ Zona de perigo</div>
-    <button class="sbtn" onclick="confirmReset()" style="background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.3);color:var(--red);font-size:12px;padding:9px;margin-bottom:8px">
+    <button class="sbtn" onclick="confirmReset()" style="background:rgba(255,68,102,.08);border:1px solid rgba(255,68,102,.3);color:var(--red);font-size:12px;padding:9px">
       🗑 Apagar todos os dados e restaurar exemplo
-    </button>
-    <button class="sbtn" onclick="doLogout()" style="background:rgba(255,68,102,.05);border:1px solid rgba(255,68,102,.2);color:var(--red);font-size:12px;padding:9px">
-      🚪 Sair da conta (Logout)
     </button>`;
   el("moverlay").classList.add("open");
 }
@@ -1874,9 +1650,9 @@ function exportJSON(){
 }
 
 function exportCSV(){
-  const headers=["Ticker","Nome","Categoria","Corretora","Quantidade","Preço Médio","Cotação Atual","Dividendos","Aporte Mensal","Yield Mensal %","Valor Investido","Valor Atual","Rentabilidade %"];
+  const headers=["Ticker","Nome","Categoria","Corretora","Data Compra","Quantidade","Preço Médio","Cotação Atual","Dividendos","Aporte Mensal","Yield Mensal %","Valor Investido","Valor Atual","Rentabilidade %"];
   const rows=assets.map(a=>[
-    a.ticker, a.name, a.category, a.broker,
+    a.ticker, a.name, a.category, a.broker, a.buyDate||"",
     a.qty, a.avgPrice, curPrice(a), a.dividends,
     a.monthlyAporte, a.monthlyYieldPct,
     aInv(a).toFixed(2), aCur(a).toFixed(2), aRet(a).toFixed(2)
@@ -2087,408 +1863,10 @@ function fillFields(ticker, name, price, dyAnual, source){
 }
 
 // ═══════════════════════════════════════════════════
-//  FIREBASE — Config & Init
+//  INIT
 // ═══════════════════════════════════════════════════
-const FB_CONFIG_KEY = "wealthos_fb_config_v1";
-let fbApp=null, fbAuth=null, fbDb=null, fbUser=null;
-let _syncPending=false, _lastSyncAt=null;
-
-function getFbConfig(){
-  try{ return JSON.parse(localStorage.getItem(FB_CONFIG_KEY)||"null"); }catch(e){ return null; }
-}
-function saveFbConfigLS(cfg){ localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg)); }
-
-function initFirebase(cfg){
-  try{
-    if(fbApp) return true; // already init
-    fbApp = firebase.initializeApp(cfg);
-    fbAuth = firebase.auth();
-    fbDb   = firebase.firestore();
-    fbDb.settings({ merge:true });
-    console.log("Firebase iniciado ✓");
-    return true;
-  } catch(e){
-    console.error("Firebase init error:", e);
-    return false;
-  }
-}
-
-function saveFbConfig(){
-  const apiKey     = el("fb-apikey")?.value.trim();
-  const authDomain = el("fb-authdomain")?.value.trim();
-  const projectId  = el("fb-projectid")?.value.trim();
-  const msg        = el("fb-msg");
-  if(!apiKey||!authDomain||!projectId){
-    if(msg){ msg.textContent="Preencha todos os campos."; msg.className="auth-msg err"; }
-    return;
-  }
-  const cfg = { apiKey, authDomain, projectId,
-    storageBucket:`${projectId}.appspot.com`,
-    messagingSenderId:"000000000000",
-    appId:"1:000000000000:web:000000000000000000000000" };
-
-  if(!initFirebase(cfg)){
-    if(msg){ msg.textContent="Configuração inválida. Verifique as credenciais."; msg.className="auth-msg err"; }
-    return;
-  }
-  saveFbConfigLS(cfg);
-  if(msg){ msg.textContent="Firebase conectado! ✓"; msg.className="auth-msg ok"; }
-  setSyncBadge("synced","☁ Conectado");
-  setTimeout(()=>{ el("fb-setup").classList.remove("open"); showAuthScreen(); }, 800);
-}
-
-function skipFbSetup(){
-  el("fb-setup").classList.remove("open");
-  localStorage.setItem("wealthos_skip_fb","1");
-  showAuthScreen();
-  setSyncBadge("offline","Offline");
-}
-
-function showAuthScreen(){
-  const auth=el("auth-screen");
-  if(auth){ auth.style.display="flex"; auth.style.opacity="0";
-    setTimeout(()=>{ auth.style.transition="opacity .35s"; auth.style.opacity="1"; },10);
-  }
-}
-
-// ── Sync badge ───────────────────────────────────────────────────────────────
-function setSyncBadge(state, label){
-  const b=el("sync-badge"),i=el("sync-icon"),l=el("sync-label");
-  if(!b) return;
-  b.className="sync-badge "+state;
-  if(i) i.innerHTML= state==="syncing"?`<span class="sync-spin">↻</span>`:
-    state==="synced"?"☁":state==="error"?"✗":"⊗";
-  if(l) l.textContent=label;
-}
-
-// ── Firestore save/load ──────────────────────────────────────────────────────
-async function syncToCloud(){
-  if(!fbDb||!fbUser) return;
-  setSyncBadge("syncing","Salvando...");
-  try{
-    await fbDb.collection("portfolios").doc(fbUser.uid).set({
-      assets: JSON.stringify(assets),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      userEmail: fbUser.email,
-      userName: fbUser.displayName||"",
-    });
-    _lastSyncAt=new Date();
-    setSyncBadge("synced","☁ Salvo "+_lastSyncAt.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}));
-  } catch(e){
-    console.error("Sync error:",e);
-    setSyncBadge("error","Erro sync");
-  }
-}
-
-async function loadFromCloud(){
-  if(!fbDb||!fbUser) return false;
-  setSyncBadge("syncing","Carregando...");
-  try{
-    const doc = await fbDb.collection("portfolios").doc(fbUser.uid).get();
-    if(doc.exists && doc.data().assets){
-      const parsed = JSON.parse(doc.data().assets);
-      if(Array.isArray(parsed)&&parsed.length>0){
-        assets=parsed;
-        assets.forEach(a=>{
-          _nextId=Math.max(_nextId,parseInt(a.id,10)||0);
-          (a.transactions||[]).forEach(tx=>{_nextId=Math.max(_nextId,parseInt(tx.id,10)||0);});
-        });
-        // also save locally as cache
-        saveAssetsLocal();
-        _lastSyncAt=new Date();
-        setSyncBadge("synced","☁ Sincronizado");
-        return true;
-      }
-    }
-    setSyncBadge("synced","☁ Novo usuário");
-    return false;
-  }catch(e){
-    console.error("Load error:",e);
-    setSyncBadge("error","Sem conexão");
-    return false;
-  }
-}
-
-async function manualSync(){
-  if(!fbDb||!fbUser){ showToast("Configure o Firebase para sincronizar.","var(--yellow)"); return; }
-  await syncToCloud();
-}
-
-// ── saveAssets — local + cloud ───────────────────────────────────────────────
-function saveAssetsLocal(){
-  const key=window._userAssetsKey||LS_KEY;
-  try{ localStorage.setItem(key, JSON.stringify(assets)); }catch(e){ console.warn(e); }
-}
-
-function saveAssets(){
-  saveAssetsLocal();
-  // debounce cloud sync
-  clearTimeout(window._cloudSyncTimer);
-  window._cloudSyncTimer=setTimeout(syncToCloud, 1500);
-}
-
-// ═══════════════════════════════════════════════════
-//  AUTH — Firebase Auth + fallback local
-// ═══════════════════════════════════════════════════
-const AUTH_KEY    = "wealthos_users_v1";
-const SESSION_KEY = "wealthos_session_v1";
-
-function getUsers(){ try{ return JSON.parse(localStorage.getItem(AUTH_KEY)||"{}"); }catch(e){ return {}; } }
-function saveUsers(u){ localStorage.setItem(AUTH_KEY, JSON.stringify(u)); }
-function getSession(){ try{ return JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null"); }catch(e){ return null; } }
-function setSession(u){ sessionStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
-function clearSession(){ sessionStorage.removeItem(SESSION_KEY); }
-
-async function hashPass(pass){
-  const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(pass+"wealthos_salt"));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("");
-}
-
-function switchAuthTab(tab){
-  document.querySelectorAll(".auth-tab").forEach((t,i)=>{
-    const tabs=["login","register","forgot"];
-    t.classList.toggle("active",tabs[i]===tab);
-  });
-  document.querySelectorAll(".auth-panel").forEach(p=>p.classList.remove("active"));
-  const panel=el("auth-"+tab); if(panel) panel.classList.add("active");
-  ["login-msg","register-msg","forgot-msg"].forEach(id=>{ const e=el(id); if(e) e.textContent=""; });
-}
-
-function setAuthMsg(id,msg,type="err"){
-  const e=el(id); if(!e) return;
-  e.textContent=msg; e.className="auth-msg "+(type==="ok"?"ok":"err");
-}
-
-function checkStrength(pass){
-  const bar=el("strength-bar"),txt=el("strength-txt"); if(!bar||!txt) return;
-  if(!pass){ bar.className="strength-bar"; txt.textContent=""; return; }
-  const score=(pass.length>=8?1:0)+(pass.length>=12?1:0)+(/[A-Z]/.test(pass)?1:0)+(/[0-9]/.test(pass)?1:0)+(/[^A-Za-z0-9]/.test(pass)?1:0);
-  if(score<=2){ bar.className="strength-bar w"; txt.textContent="Senha fraca"; txt.style.color="var(--red)"; }
-  else if(score<=3){ bar.className="strength-bar m"; txt.textContent="Senha média"; txt.style.color="var(--yellow)"; }
-  else{ bar.className="strength-bar s"; txt.textContent="Senha forte ✓"; txt.style.color="var(--green)"; }
-}
-
-async function doLogin(){
-  const email=(el("l-email")?.value||"").trim().toLowerCase();
-  const pass =el("l-pass")?.value||"";
-  if(!email||!pass){ setAuthMsg("login-msg","Preencha e-mail e senha."); return; }
-  const btn=el("btn-login"); if(btn){ btn.disabled=true; btn.textContent="Entrando..."; }
-
-  // ── Firebase Auth (preferencial) ────────────────────────────────────────
-  if(fbAuth){
-    try{
-      const cred = await fbAuth.signInWithEmailAndPassword(email, pass);
-      fbUser = cred.user;
-      setSession({email, name:cred.user.displayName||email.split("@")[0], loginAt:Date.now(), uid:cred.user.uid});
-      const loaded = await loadFromCloud();
-      if(!loaded) await loadLocalAssets(email);
-      enterApp(cred.user.displayName||email.split("@")[0]);
-      return;
-    }catch(e){
-      const msg = e.code==="auth/user-not-found"||e.code==="auth/wrong-password"||e.code==="auth/invalid-credential"
-        ? "E-mail ou senha incorretos."
-        : e.code==="auth/too-many-requests"
-        ? "Muitas tentativas. Aguarde alguns minutos."
-        : e.code==="auth/network-request-failed"
-        ? "Sem conexão. Tentando modo offline..."
-        : e.message;
-
-      if(e.code==="auth/network-request-failed"){
-        // fallback to local auth
-        await doLoginLocal(email, pass, btn);
-        return;
-      }
-      setAuthMsg("login-msg", msg);
-      if(btn){ btn.disabled=false; btn.textContent="Entrar"; }
-      return;
-    }
-  }
-
-  // ── Fallback: autenticação local ─────────────────────────────────────────
-  await doLoginLocal(email, pass, btn);
-}
-
-async function doLoginLocal(email, pass, btn){
-  const users=getUsers(), hash=await hashPass(pass), user=users[email];
-  if(!user||user.hash!==hash){
-    setAuthMsg("login-msg","E-mail ou senha incorretos.");
-    if(btn){ btn.disabled=false; btn.textContent="Entrar"; }
-    return;
-  }
-  setSession({email, name:user.name, loginAt:Date.now()});
-  await loadLocalAssets(email);
-  enterApp(user.name);
-}
-
-async function doRegister(){
-  const name =(el("r-name")?.value||"").trim();
-  const email=(el("r-email")?.value||"").trim().toLowerCase();
-  const pass =el("r-pass")?.value||"";
-  const pass2=el("r-pass2")?.value||"";
-  if(!name||!email||!pass||!pass2){ setAuthMsg("register-msg","Preencha todos os campos."); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthMsg("register-msg","E-mail inválido."); return; }
-  if(pass.length<6){ setAuthMsg("register-msg","Mínimo 6 caracteres."); return; }
-  if(pass!==pass2){ setAuthMsg("register-msg","As senhas não coincidem."); return; }
-  const btn=el("btn-register"); if(btn){ btn.disabled=true; btn.textContent="Criando..."; }
-
-  // ── Firebase Auth ────────────────────────────────────────────────────────
-  if(fbAuth){
-    try{
-      const cred = await fbAuth.createUserWithEmailAndPassword(email, pass);
-      await cred.user.updateProfile({ displayName: name });
-      fbUser = cred.user;
-      // also save locally for fallback
-      const users=getUsers(); const hash=await hashPass(pass);
-      users[email]={name,hash,createdAt:Date.now()}; saveUsers(users);
-      setSession({email, name, loginAt:Date.now(), uid:cred.user.uid});
-      setAuthMsg("register-msg","Conta criada! ✓","ok");
-      setTimeout(()=>enterApp(name), 600);
-      return;
-    }catch(e){
-      const msg=e.code==="auth/email-already-in-use"?"Este e-mail já está cadastrado.":
-        e.code==="auth/weak-password"?"Senha muito fraca.":
-        e.code==="auth/network-request-failed"?"Sem conexão. Criando conta offline...":
-        e.message;
-      if(e.code==="auth/network-request-failed"){
-        await doRegisterLocal(name,email,pass,btn); return;
-      }
-      setAuthMsg("register-msg", msg);
-      if(btn){ btn.disabled=false; btn.textContent="Criar Conta"; }
-      return;
-    }
-  }
-
-  // ── Fallback local ───────────────────────────────────────────────────────
-  await doRegisterLocal(name, email, pass, btn);
-}
-
-async function doRegisterLocal(name, email, pass, btn){
-  const users=getUsers();
-  if(users[email]){ setAuthMsg("register-msg","E-mail já cadastrado."); if(btn){btn.disabled=false;btn.textContent="Criar Conta";} return; }
-  const hash=await hashPass(pass);
-  users[email]={name,hash,createdAt:Date.now()}; saveUsers(users);
-  setSession({email,name,loginAt:Date.now()});
-  setAuthMsg("register-msg","Conta criada! ✓","ok");
-  setTimeout(()=>enterApp(name),600);
-}
-
-function doGuest(){
-  setSession({email:"visitante",name:"Visitante",loginAt:Date.now(),guest:true});
-  setSyncBadge("offline","Visitante");
-  enterApp("Visitante");
-}
-
-async function doForgot(){
-  const email=(el("f-email")?.value||"").trim().toLowerCase();
-  if(!email){ setAuthMsg("forgot-msg","Digite seu e-mail."); return; }
-
-  if(fbAuth){
-    try{
-      await fbAuth.sendPasswordResetEmail(email);
-      setAuthMsg("forgot-msg",`E-mail de redefinição enviado para ${email} ✓`,"ok");
-      return;
-    }catch(e){
-      if(e.code==="auth/user-not-found"){ setAuthMsg("forgot-msg","E-mail não encontrado."); return; }
-      if(e.code==="auth/network-request-failed"){ /* fallback below */ }
-    }
-  }
-  // Offline fallback
-  const users=getUsers();
-  if(!users[email]){ setAuthMsg("forgot-msg","E-mail não encontrado."); return; }
-  setAuthMsg("forgot-msg",`Conta encontrada para ${users[email].name}. Use Criar Conta para redefinir a senha (modo offline).`,"ok");
-}
-
-async function loadLocalAssets(email){
-  window._userAssetsKey = "wealthos_assets_v2_"+email.replace(/[^a-z0-9]/g,"_");
-  try{
-    const raw=localStorage.getItem(window._userAssetsKey);
-    if(raw){ const p=JSON.parse(raw); if(Array.isArray(p)&&p.length>0){
-      assets=p;
-      assets.forEach(a=>{_nextId=Math.max(_nextId,parseInt(a.id,10)||0);
-        (a.transactions||[]).forEach(tx=>{_nextId=Math.max(_nextId,parseInt(tx.id,10)||0);});});
-    }}
-  }catch(e){}
-}
-
-function enterApp(name){
-  // Update UI
-  const badge=el("user-badge-name"); if(badge) badge.textContent=name.split(" ")[0];
-  // Hide auth
-  const auth=el("auth-screen");
-  if(auth){ auth.style.transition="opacity .35s ease"; auth.style.opacity="0";
-    setTimeout(()=>{ auth.style.display="none"; },360); }
-  // Render
-  renderDashboard();
-  setTimeout(()=>{buildP1Preview();fillCartPills();},100);
-  // Update sync badge
-  if(fbUser) setSyncBadge("synced","☁ Nuvem");
-  else setSyncBadge("offline","Local");
-}
-
-function doLogout(){
-  if(fbAuth && fbUser) fbAuth.signOut().catch(()=>{});
-  fbUser=null;
-  clearSession();
-  const auth=el("auth-screen");
-  if(auth){ auth.style.display="flex"; auth.style.opacity="0";
-    setTimeout(()=>{ auth.style.transition="opacity .35s"; auth.style.opacity="1"; },10); }
-  closeModal();
-  ["l-email","l-pass","r-name","r-email","r-pass","r-pass2"].forEach(id=>{ const e=el(id); if(e) e.value=""; });
-  switchAuthTab("login");
-  const badge=el("user-badge-name"); if(badge) badge.textContent="Usuário";
-  setSyncBadge("offline","Offline");
-  // Reset to default assets to avoid data leakage
-  assets=JSON.parse(JSON.stringify(DEFAULT_ASSETS));
-  window._userAssetsKey=null;
-}
-
-// ═══════════════════════════════════════════════════
-//  INIT — Firebase setup check → Auth → App
-// ═══════════════════════════════════════════════════
-(function init(){
-  const fbCfg   = getFbConfig();
-  const skipped = localStorage.getItem("wealthos_skip_fb");
-  const session = getSession();
-
-  // Init Firebase if config exists
-  if(fbCfg) initFirebase(fbCfg);
-
-  // Show Firebase setup on very first visit
-  if(!fbCfg && !skipped){
-    el("fb-setup").classList.add("open");
-    return;
-  }
-
-  // Auto-login via Firebase Auth state
-  if(fbAuth){
-    fbAuth.onAuthStateChanged(async (user)=>{
-      if(user && !session){
-        // Firebase session active but no sessionStorage — restore
-        fbUser=user;
-        setSession({email:user.email,name:user.displayName||user.email.split("@")[0],loginAt:Date.now(),uid:user.uid});
-        await loadFromCloud();
-        enterApp(user.displayName||user.email.split("@")[0]);
-      } else if(user && session){
-        fbUser=user;
-        await loadFromCloud();
-        enterApp(session.name);
-      } else if(!user && session){
-        // Local session
-        await loadLocalAssets(session.email);
-        enterApp(session.name);
-      } else {
-        showAuthScreen();
-      }
-    });
-  } else if(session){
-    // No Firebase — use local session
-    loadLocalAssets(session.email).then(()=>enterApp(session.name));
-  } else {
-    showAuthScreen();
-  }
-})();
-
-setTimeout(()=>{buildP1Preview();fillCartPills();},300);
+renderDashboard();
+setTimeout(()=>{buildP1Preview();fillCartPills();},100);
 </script>
 </body>
 </html>
